@@ -85,8 +85,13 @@ def is_a_DP? (ins)
 	DP_pattern == tmp	
 end
 
+def is_a_SWP? (ins)
+	tmp = ins & $SWP_mask
+	DP_pattern == tmp	
+end
+
 # open file
-io = File.open("bin/and.bin","rb")
+io = File.open("bin/swp.bin","rb")
 
 
 (1..5).each do | x |
@@ -95,9 +100,10 @@ io = File.open("bin/and.bin","rb")
 
 	if is_a_MUL? (inst)
 		puts "#{inst_str} is a MULTIPLY"
+	elsif is_a_SWP?(inst)
+		puts "#{inst_str} is a Swap Instruction"
 	elsif is_a_DP?(inst)
 		puts "#{inst_str} is a Data Processing"	
-		
 	end
 end
 
