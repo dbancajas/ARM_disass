@@ -37,14 +37,15 @@ $DP_mask = sum
 
 #mask for SWAP
 SWP_mask_list = (4..11).to_a + (20..21).to_a + (23..27).to_a
-SWP_pattern = 0b1<<24 + (0b1001)<<4
+SWP_pattern = ((0b1)<<24) + ((0b1001)<<4)
 
-sum = 0
+sumx = 0
+
 SWP_mask_list.each do | n | 
-	sum += 1<<n	
+	sumx += 1<<n	
 end
 
-$SWP_mask = sum
+$SWP_mask = sumx
 
 
 
@@ -81,20 +82,23 @@ def is_a_MUL? (ins)
 end
 
 def is_a_DP? (ins)
-	tmp = ins & $DP_mask
+	abort unless ins.is_a? Integer
+	tmp = (ins & $DP_mask)
 	DP_pattern == tmp	
 end
 
 def is_a_SWP? (ins)
-	tmp = ins & $SWP_mask
-	DP_pattern == tmp	
+	abort unless ins.is_a? Integer
+	tmp = (ins & $SWP_mask)
+	puts "#{tmp} and #{SWP_pattern} and #{ins.to_s(16)}"
+	SWP_pattern == tmp	
 end
 
 # open file
 io = File.open("bin/swp.bin","rb")
 
 
-(1..5).each do | x |
+(1..6).each do | x |
 	inst = getInstruction(io)
 	inst_str = inst.to_s(16)
 
